@@ -49,6 +49,18 @@ This is a small python script that does the following:
 
 This might be illegal (depending on the copyright rules of the videos) but you could use this script if you have a list of the tiles of your favourite songs (list that you generated from Pandora or Spotify for example) and you want to get the mp3s of the songs so you can listen to them on your PC or Phone.
 
+## Need help?
+
+If you need any help just create an Issue or send me an email at the address you can find on my profile.
+
+## Want to help?
+
+If you want to improve the code and submit a pull request feel free to do so.
+
+Maybe do something to avoid the usage of the YouTube API key? 
+
+Actually anything is accepted!
+
 ## Licensce
 
 GPL v3
