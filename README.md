@@ -1,11 +1,11 @@
-# Title-Youtube-Mp3
+# Titles-Youtube-Mp3
 
 (Really bad name)
 
 Search and download a list of videos from Youtube and convert them to mp3.
 
 
-## What is Title-Youtube-Mp3?
+## What is Titles-Youtube-Mp3?
 
 This is a small python script that does the following:
 
@@ -20,7 +20,7 @@ This is a small python script that does the following:
     * The file will be placed in the same folder you started the script
     * The file will be called "{video_title}.mp3"
 
-## How to use Title-Youtube-Mp3?
+## How to use Titles-Youtube-Mp3?
 
 1. Install Python 2
 2. Install pip
