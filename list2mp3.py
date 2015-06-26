@@ -8,7 +8,7 @@ import sys
 
 # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
 # tab of
-#   https://cloud.google.com/console
+#   https://console.developers.google.com/project
 # Please ensure that you have enabled the YouTube Data API for your project.
 DEVELOPER_KEY = ""
 YOUTUBE_API_SERVICE_NAME = "youtube"
