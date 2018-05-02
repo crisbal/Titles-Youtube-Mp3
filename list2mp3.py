@@ -3,7 +3,7 @@ import youtube_dl
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 
-import sys
+import sys, os
 
 
 # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
@@ -13,6 +13,7 @@ import sys
 DEVELOPER_KEY = ""
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
+FOLDER = "mp3s"
 
 def search_video(title):
   search_response = youtube.search().list(
@@ -47,23 +48,27 @@ def my_hook(d):
         sys.stdout.write('\tDownload complete\n\tConverting video to mp3')
         sys.stdout.flush()
 
-ydl_opts = {
-    'format': 'bestaudio',
-    'outtmpl': '%(title)s.%(ext)s',
-    'postprocessors': [{
-        'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'mp3',
-        'preferredquality': '0',
-    }],
-    'logger': MyLogger(),
-    'progress_hooks': [my_hook],
-}
+def make_opts(index, filename):
+    return {
+        'format': 'bestaudio',
+        'outtmpl': f"{FOLDER}/{index} - %(title)s.%(ext)s",
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '0',
+        }],
+        'logger': MyLogger(),
+        'progress_hooks': [my_hook],
+    }
 
 
 ##main
 if __name__ == "__main__":
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,developerKey=DEVELOPER_KEY)
-    print
+    
+    if not os.path.exists(FOLDER):
+        os.makedirs(FOLDER)
+
     print("Reading file 'titles.txt'.")
     with open("titles.txt") as f:
 
@@ -75,25 +80,18 @@ if __name__ == "__main__":
 
         lenTitles = len(titles)
         print("Total titles: " + str(lenTitles))
-        print
+        
         for i, title in enumerate(titles):
             print("(" + str(i + 1) + "/" + str(lenTitles) + ") " + title)
             print("\tSearching video")
             try:
                 videoID, videoTitle = search_video(title);
 
-                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                    print("\tFound video: '" + videoTitle + "' - ID: " + videoID)
+                with youtube_dl.YoutubeDL(make_opts(str(i).zfill(2), videoTitle)) as ydl:
+                    print("\tFound video: '" + videoTitle + "' - https://www.youtube.com/watch?v=" + videoID)
                     ydl.download(['http://www.youtube.com/watch?v=' + videoID])
                     print("\tDone")
-            except HttpError, e:
-                print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+            except HttpError as e:
+                print("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
 
         print("All titles downloaded and converted")
-                        
-                   
-                    
-  
-
-
-
